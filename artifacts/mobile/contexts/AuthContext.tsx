@@ -12,6 +12,7 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string, fullName: string, role: 'owner' | 'staff') => Promise<void>;
   signOut: () => Promise<void>;
+  devLogin: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -104,6 +105,41 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   async function signOut() {
     await supabase.auth.signOut();
+    if (mounted.current) {
+      setSession(null);
+      setUser(null);
+      setProfile(null);
+    }
+  }
+
+  function devLogin() {
+    if (!__DEV__) return;
+    const mockUser = {
+      id: 'dev-user',
+      email: 'dev@bakery.local',
+      app_metadata: {},
+      user_metadata: { full_name: 'Developer', role: 'owner' },
+      aud: 'authenticated',
+      created_at: new Date().toISOString(),
+    } as unknown as User;
+
+    const mockSession = {
+      access_token: 'dev-access-token',
+      refresh_token: 'dev-refresh-token',
+      expires_in: 3600,
+      token_type: 'bearer',
+      user: mockUser,
+    } as unknown as Session;
+
+    setSession(mockSession);
+    setUser(mockUser);
+    setProfile({
+      id: 'dev-user',
+      email: 'dev@bakery.local',
+      full_name: 'Developer',
+      role: 'owner',
+    });
+    setLoading(false);
   }
 
   return (
@@ -117,6 +153,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signIn,
         signUp,
         signOut,
+        devLogin,
       }}
     >
       {children}

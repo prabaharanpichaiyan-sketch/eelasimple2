@@ -226,7 +226,7 @@ export const OrderRepository = {
     const productCounts: Record<string, { name: string; count: number }> = {};
     for (const item of topProductsRes.data ?? []) {
       const pid = item.product_id as string;
-      const pname = (item.products as { name: string } | null)?.name ?? 'Unknown';
+      const pname = (item.products as unknown as { name: string } | null)?.name ?? 'Unknown';
       if (!productCounts[pid]) productCounts[pid] = { name: pname, count: 0 };
       productCounts[pid].count += (item.quantity as number) ?? 1;
     }
@@ -237,7 +237,7 @@ export const OrderRepository = {
     const customerTotals: Record<string, { name: string; total: number }> = {};
     for (const order of topCustomersRes.data ?? []) {
       const cid = order.customer_id as string;
-      const cname = (order.customers as { name: string } | null)?.name ?? 'Unknown';
+      const cname = (order.customers as unknown as { name: string } | null)?.name ?? 'Unknown';
       if (!customerTotals[cid]) customerTotals[cid] = { name: cname, total: 0 };
       customerTotals[cid].total += (order.grand_total as number) ?? 0;
     }

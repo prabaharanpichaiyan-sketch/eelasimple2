@@ -18,7 +18,7 @@ import { useAuth } from '@/contexts/AuthContext';
 
 export default function LoginScreen() {
   const colors = useColors();
-  const { signIn } = useAuth();
+  const { signIn, devLogin } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -110,6 +110,21 @@ export default function LoginScreen() {
               <Text style={[styles.linkBold, { color: colors.primary }]}>Register</Text>
             </Text>
           </TouchableOpacity>
+
+          {__DEV__ && (
+            <TouchableOpacity
+              style={[styles.devButton, { borderColor: colors.border }]}
+              onPress={() => {
+                devLogin();
+                router.replace('/(tabs)');
+              }}
+              activeOpacity={0.7}
+            >
+              <Text style={[styles.devButtonText, { color: colors.mutedForeground }]}>
+                Skip login (Developer)
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -151,4 +166,13 @@ const styles = StyleSheet.create({
   buttonText: { fontSize: 16, fontFamily: 'Inter_600SemiBold' },
   link: { textAlign: 'center', fontSize: 14, fontFamily: 'Inter_400Regular', marginTop: 8 },
   linkBold: { fontFamily: 'Inter_600SemiBold' },
+  devButton: {
+    borderRadius: 12,
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    paddingVertical: 12,
+    alignItems: 'center',
+    marginTop: 12,
+  },
+  devButtonText: { fontSize: 13, fontFamily: 'Inter_500Medium' },
 });
