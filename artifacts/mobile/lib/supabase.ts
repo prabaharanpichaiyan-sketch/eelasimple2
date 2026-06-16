@@ -19,6 +19,11 @@ function isValidHttpsUrl(value: string | undefined): value is string {
 
 const urlValid = isValidHttpsUrl(rawUrl);
 
+// Supabase's createClient expects the bare project origin (e.g.
+// https://xxxx.supabase.co). Users sometimes paste the "Data API URL" which
+// includes a /rest/v1/ path — strip any path so requests route correctly.
+const normalizedUrl = urlValid ? new URL(rawUrl).origin : FALLBACK_URL;
+
 export const isConfigured = urlValid && !!rawKey && rawKey.length > 0;
 
 if (!isConfigured) {
@@ -30,7 +35,7 @@ if (!isConfigured) {
 // When misconfigured, use placeholder URL AND placeholder key so the real anon
 // key is never sent to a non-project host. The placeholder host does not resolve,
 // so requests fail fast instead of leaking credentials.
-const supabaseUrl = urlValid && rawUrl ? rawUrl : FALLBACK_URL;
+const supabaseUrl = isConfigured ? normalizedUrl : FALLBACK_URL;
 const supabaseAnonKey = isConfigured && rawKey ? rawKey : FALLBACK_KEY;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
