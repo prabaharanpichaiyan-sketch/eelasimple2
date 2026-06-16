@@ -9,7 +9,16 @@ _Replace the heading above with the project's name, and this line with one sente
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
+- `pnpm --filter @workspace/mobile run export:web` — export the mobile app as a static web build to `artifacts/mobile/dist` (for Netlify/static hosting)
 - Required env: `DATABASE_URL` — Postgres connection string
+
+## Web hosting (Netlify)
+
+The Expo mobile app (`artifacts/mobile`) also runs on the web via `react-native-web` and exports to a static single-page app. Deploy to Netlify (config in root `netlify.toml`):
+- Build command: `pnpm --filter @workspace/mobile run export:web`
+- Publish directory: `artifacts/mobile/dist`
+- SPA redirect (`/* → /index.html`) is in `netlify.toml`
+- Set build-time env vars in Netlify: `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY` (Expo inlines `EXPO_PUBLIC_*` at build time, so they must be present when the build runs)
 
 ## Stack
 

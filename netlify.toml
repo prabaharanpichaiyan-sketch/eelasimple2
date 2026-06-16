@@ -1,0 +1,18 @@
+# Netlify configuration for the Bakery Manager web app (Expo web export).
+# The app is a self-contained client that talks directly to Supabase, so it
+# deploys as a fully static single-page app.
+
+[build]
+  command = "pnpm --filter @workspace/mobile run export:web"
+  publish = "artifacts/mobile/dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+  PNPM_VERSION = "10"
+
+# Single-page app: every route is served by index.html so expo-router can
+# handle client-side navigation and deep links.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
