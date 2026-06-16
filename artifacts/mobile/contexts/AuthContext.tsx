@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import type { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import type { UserProfile } from '@/lib/types';
@@ -21,35 +21,58 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const mounted = useRef(false);
 
   async function fetchProfile(userId: string) {
-    const { data } = await supabase
-      .from('user_profiles')
-      .select('*')
-      .eq('id', userId)
-      .single();
-    if (data) setProfile(data as UserProfile);
+    try {
+      const { data } = await supabase
+        .from('user_profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
+      if (data && mounted.current) setProfile(data as UserProfile);
+    } catch {}
   }
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) fetchProfile(session.user.id);
-      setLoading(false);
-    });
+    mounted.current = true;
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        fetchProfile(session.user.id);
+    // Use setTimeout to defer session init past the synchronous render cycle.
+    // This prevents "Can't perform state update on unmounted component" errors
+    // in expo-router's ContextNavigator on web when Supabase resolves immediately.
+    const timer = setTimeout(async () => {
+      if (!mounted.current) return;
+
+      const { data: { session: s } } = await supabase.auth.getSession();
+      if (!mounted.current) return;
+
+      setSession(s);
+      setUser(s?.user ?? null);
+      if (s?.user) fetchProfile(s.user.id);
+      setLoading(false);
+    }, 0);
+
+    // Subscribe to subsequent auth state changes (sign in, sign out, token refresh)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, s) => {
+      // Skip the INITIAL_SESSION event — we handle initial state via getSession above
+      if (event === 'INITIAL_SESSION') return;
+      if (!mounted.current) return;
+
+      setSession(s);
+      setUser(s?.user ?? null);
+      if (s?.user) {
+        fetchProfile(s.user.id);
       } else {
         setProfile(null);
+        setLoading(false);
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted.current = false;
+      clearTimeout(timer);
+      subscription.unsubscribe();
+    };
   }, []);
 
   async function signIn(email: string, password: string) {
@@ -57,7 +80,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (error) throw error;
   }
 
-  async function signUp(email: string, password: string, fullName: string, role: 'owner' | 'staff') {
+  async function signUp(
+    email: string,
+    password: string,
+    fullName: string,
+    role: 'owner' | 'staff',
+  ) {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -79,16 +107,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{
-      session,
-      user,
-      profile,
-      loading,
-      isOwner: profile?.role === 'owner',
-      signIn,
-      signUp,
-      signOut,
-    }}>
+    <AuthContext.Provider
+      value={{
+        session,
+        user,
+        profile,
+        loading,
+        isOwner: profile?.role === 'owner',
+        signIn,
+        signUp,
+        signOut,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
