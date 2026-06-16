@@ -1,0 +1,1 @@
+- [expo-glass-effect crash](expo-glass-effect-crash.md) — isLiquidGlassAvailable + unstable-native-tabs crash on web; use standard Tabs only
