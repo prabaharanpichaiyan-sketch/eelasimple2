@@ -1,0 +1,8 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "IrILi20SANJ4jI63eQaFC"
+uri = "file://artifacts/mobile/assets/images/icon.png"
+type = "image"
+title = "bakery app icon"
