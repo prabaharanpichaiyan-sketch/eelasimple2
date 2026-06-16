@@ -1,1 +1,2 @@
 - [expo-glass-effect crash](expo-glass-effect-crash.md) — isLiquidGlassAvailable + unstable-native-tabs crash on web; use standard Tabs only
+- [React Native URL polyfill](rn-url-polyfill.md) — supabase + Expo Go Android needs react-native-url-polyfill/auto before expo-router/entry
