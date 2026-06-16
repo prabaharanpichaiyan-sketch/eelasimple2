@@ -1,3 +1,4 @@
 - [expo-glass-effect crash](expo-glass-effect-crash.md) — isLiquidGlassAvailable + unstable-native-tabs crash on web; use standard Tabs only
 - [React Native URL polyfill](rn-url-polyfill.md) — supabase + Expo Go Android needs react-native-url-polyfill/auto before expo-router/entry
 - [Supabase env config (Expo)](supabase-env-config.md) — "Network request failed" often means swapped/invalid URL+key secrets; validate URL is https before building client
+- [Icon fonts fail on device](icon-fonts-on-device.md) — @expo/vector-icons can render blank on real devices; use react-native-svg via components/Icon.tsx, avoid lucide-react-native

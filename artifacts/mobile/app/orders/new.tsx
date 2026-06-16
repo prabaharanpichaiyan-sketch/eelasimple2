@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -110,7 +110,7 @@ export default function NewOrderScreen() {
           <Text style={[styles.pickerText, { color: selectedCustomer ? colors.foreground : colors.mutedForeground }]}>
             {selectedCustomer?.name ?? 'Select a customer...'}
           </Text>
-          <Feather name={showCustomers ? 'chevron-up' : 'chevron-down'} size={16} color={colors.mutedForeground} />
+          <Icon name={showCustomers ? 'chevron-up' : 'chevron-down'} size={16} color={colors.mutedForeground} />
         </TouchableOpacity>
         {showCustomers && (
           <View style={[styles.dropdown, { backgroundColor: colors.card, borderColor: colors.border }]}>
@@ -131,7 +131,7 @@ export default function NewOrderScreen() {
         <View style={styles.sectionHeader}>
           <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Items</Text>
           <TouchableOpacity onPress={() => setShowProducts(!showProducts)} activeOpacity={0.7}>
-            <Feather name="plus-circle" size={20} color={colors.primary} />
+            <Icon name="plus-circle" size={20} color={colors.primary} />
           </TouchableOpacity>
         </View>
         {showProducts && (
@@ -153,16 +153,16 @@ export default function NewOrderScreen() {
             <Text style={[styles.cartName, { color: colors.foreground }]} numberOfLines={1}>{ci.product.name}</Text>
             <View style={styles.qtyRow}>
               <TouchableOpacity onPress={() => updateQty(ci.product.id, -1)} style={[styles.qtyBtn, { borderColor: colors.border }]}>
-                <Feather name="minus" size={14} color={colors.foreground} />
+                <Icon name="minus" size={14} color={colors.foreground} />
               </TouchableOpacity>
               <Text style={[styles.qtyText, { color: colors.foreground }]}>{ci.quantity}</Text>
               <TouchableOpacity onPress={() => updateQty(ci.product.id, 1)} style={[styles.qtyBtn, { borderColor: colors.border }]}>
-                <Feather name="plus" size={14} color={colors.foreground} />
+                <Icon name="plus" size={14} color={colors.foreground} />
               </TouchableOpacity>
             </View>
             <Text style={[styles.cartTotal, { color: colors.primary }]}>${(ci.product.price * ci.quantity).toFixed(2)}</Text>
             <TouchableOpacity onPress={() => removeFromCart(ci.product.id)}>
-              <Feather name="x" size={16} color={colors.destructive} />
+              <Icon name="x" size={16} color={colors.destructive} />
             </TouchableOpacity>
           </View>
         ))}

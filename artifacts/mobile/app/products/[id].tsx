@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { router, useLocalSearchParams } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -111,7 +111,7 @@ export default function ProductDetailScreen() {
         <Image source={{ uri: imageUrl }} style={[styles.heroImage, { borderColor: colors.border }]} />
       ) : (
         <View style={[styles.heroPlaceholder, { backgroundColor: colors.muted, borderColor: colors.border }]}>
-          <Feather name="package" size={40} color={colors.mutedForeground} />
+          <Icon name="package" size={40} color={colors.mutedForeground} />
         </View>
       )}
 

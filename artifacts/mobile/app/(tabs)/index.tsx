@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { useQuery } from '@tanstack/react-query';
 import { useColors } from '@/hooks/useColors';
 import { useAuth } from '@/contexts/AuthContext';
@@ -47,13 +47,13 @@ export default function DashboardScreen() {
             <StatCard
               label="Total Orders"
               value={String(stats?.total_orders ?? 0)}
-              icon={<Feather name="shopping-bag" size={18} color={colors.primary} />}
+              icon={<Icon name="shopping-bag" size={18} color={colors.primary} />}
               color={colors.primary + '18'}
             />
             <StatCard
               label="Monthly Revenue"
               value={`$${(stats?.monthly_revenue ?? 0).toFixed(0)}`}
-              icon={<Feather name="dollar-sign" size={18} color="#16A34A" />}
+              icon={<Icon name="dollar-sign" size={18} color="#16A34A" />}
               color="#16A34A18"
             />
           </View>
@@ -61,7 +61,7 @@ export default function DashboardScreen() {
             <StatCard
               label="Pending Deliveries"
               value={String(stats?.pending_deliveries ?? 0)}
-              icon={<Feather name="truck" size={18} color="#D97706" />}
+              icon={<Icon name="truck" size={18} color="#D97706" />}
               color="#D9770618"
             />
           </View>

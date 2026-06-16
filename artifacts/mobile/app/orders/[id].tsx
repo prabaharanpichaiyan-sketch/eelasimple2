@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { router, useLocalSearchParams } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -96,7 +96,7 @@ export default function OrderDetailScreen() {
           <Text style={[styles.orderNum, { color: colors.foreground }]}>#{order.order_number}</Text>
           {isOwner && (
             <TouchableOpacity onPress={handleDelete} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-              <Feather name="trash-2" size={18} color={colors.destructive} />
+              <Icon name="trash-2" size={18} color={colors.destructive} />
             </TouchableOpacity>
           )}
         </View>

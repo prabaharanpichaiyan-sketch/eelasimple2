@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { router } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import { useColors } from '@/hooks/useColors';
@@ -36,7 +36,7 @@ export default function CustomersScreen() {
 
   const renderEmpty = () => (
     <View style={styles.empty}>
-      <Feather name="users" size={40} color={colors.mutedForeground} />
+      <Icon name="users" size={40} color={colors.mutedForeground} />
       <Text style={[styles.emptyTitle, { color: colors.foreground }]}>No customers</Text>
       <Text style={[styles.emptyText, { color: colors.mutedForeground }]}>Add your first customer to the list</Text>
     </View>
@@ -46,7 +46,7 @@ export default function CustomersScreen() {
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.searchRow}>
         <View style={[styles.searchBox, { backgroundColor: colors.card, borderColor: colors.border }]}>
-          <Feather name="search" size={16} color={colors.mutedForeground} />
+          <Icon name="search" size={16} color={colors.mutedForeground} />
           <TextInput
             style={[styles.searchInput, { color: colors.foreground }]}
             placeholder="Search customers..."
@@ -60,7 +60,7 @@ export default function CustomersScreen() {
           onPress={() => router.push('/customers/new')}
           activeOpacity={0.8}
         >
-          <Feather name="plus" size={20} color={colors.primaryForeground} />
+          <Icon name="plus" size={20} color={colors.primaryForeground} />
         </TouchableOpacity>
       </View>
 

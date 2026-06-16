@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { useColors } from '@/hooks/useColors';
 import type { Product } from '@/lib/types';
 
@@ -22,7 +22,7 @@ export function ProductCard({ product, onPress }: ProductCardProps) {
         <Image source={{ uri: product.image_url }} style={styles.image} />
       ) : (
         <View style={[styles.imagePlaceholder, { backgroundColor: colors.muted }]}>
-          <Feather name="package" size={28} color={colors.mutedForeground} />
+          <Icon name="package" size={28} color={colors.mutedForeground} />
         </View>
       )}
       <View style={styles.content}>

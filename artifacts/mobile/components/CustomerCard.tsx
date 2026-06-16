@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { useColors } from '@/hooks/useColors';
 import type { Customer } from '@/lib/types';
 
@@ -40,7 +40,7 @@ export function CustomerCard({ customer, onPress }: CustomerCardProps) {
           </Text>
         ) : null}
       </View>
-      <Feather name="chevron-right" size={18} color={colors.mutedForeground} />
+      <Icon name="chevron-right" size={18} color={colors.mutedForeground} />
     </TouchableOpacity>
   );
 }

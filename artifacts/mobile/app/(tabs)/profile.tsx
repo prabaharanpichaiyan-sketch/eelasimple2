@@ -7,13 +7,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { Icon, type IconName } from '@/components/Icon';
 import * as Haptics from 'expo-haptics';
 import { useColors } from '@/hooks/useColors';
 import { useAuth } from '@/contexts/AuthContext';
 
 interface RowProps {
-  icon: string;
+  icon: IconName;
   label: string;
   value?: string;
   onPress?: () => void;
@@ -32,11 +32,11 @@ function Row({ icon, label, value, onPress, destructive = false }: RowProps) {
       disabled={!onPress}
     >
       <View style={[styles.rowIcon, { backgroundColor: (destructive ? colors.destructive : colors.primary) + '18' }]}>
-        <Feather name={icon as keyof typeof Feather.glyphMap} size={16} color={destructive ? colors.destructive : colors.primary} />
+        <Icon name={icon} size={16} color={destructive ? colors.destructive : colors.primary} />
       </View>
       <Text style={[styles.rowLabel, { color }]}>{label}</Text>
       {value ? <Text style={[styles.rowValue, { color: colors.mutedForeground }]}>{value}</Text> : null}
-      {onPress && !destructive && <Feather name="chevron-right" size={16} color={colors.mutedForeground} />}
+      {onPress && !destructive && <Icon name="chevron-right" size={16} color={colors.mutedForeground} />}
     </TouchableOpacity>
   );
 }
