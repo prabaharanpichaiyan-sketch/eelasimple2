@@ -2,4 +2,5 @@
 - [React Native URL polyfill](rn-url-polyfill.md) — supabase + Expo Go Android needs react-native-url-polyfill/auto before expo-router/entry
 - [Supabase env config (Expo)](supabase-env-config.md) — "Network request failed" often means swapped/invalid URL+key secrets; validate URL is https before building client
 - [Icon fonts fail on device](icon-fonts-on-device.md) — @expo/vector-icons can render blank on real devices; use react-native-svg via components/Icon.tsx, avoid lucide-react-native
-- [Expo app as static web (Netlify)](expo-web-netlify-export.md) — mobile app exports to a static SPA via expo export; EXPO_PUBLIC_* must be set at build time
+- [Expo app as static web (Netlify)](expo-web-netlify-export.md) — static SPA via expo export; EXPO_PUBLIC_* set at build time; Netlify drops dot-dirs (.pnpm) breaking fonts
+- [Supabase RLS self-reference recursion](supabase-rls-recursion.md) — a SELECT policy querying its own table = 500 (42P17); fix with a SECURITY DEFINER helper; beware client-set roles

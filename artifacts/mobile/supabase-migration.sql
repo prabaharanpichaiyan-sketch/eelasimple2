@@ -88,6 +88,22 @@ alter table public.customers      enable row level security;
 alter table public.orders         enable row level security;
 alter table public.order_items    enable row level security;
 
+-- Helper: check whether the current user is an owner.
+-- SECURITY DEFINER so it bypasses RLS on user_profiles and does NOT re-trigger
+-- the user_profiles SELECT policies (which would cause infinite recursion).
+create or replace function public.is_owner()
+returns boolean
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select exists (
+    select 1 from public.user_profiles
+    where id = auth.uid() and role = 'owner'
+  );
+$$;
+
 -- user_profiles: users can read their own row; owners can read all
 create policy "Users can view own profile"
   on public.user_profiles for select
@@ -95,12 +111,7 @@ create policy "Users can view own profile"
 
 create policy "Owners can view all profiles"
   on public.user_profiles for select
-  using (
-    exists (
-      select 1 from public.user_profiles up
-      where up.id = auth.uid() and up.role = 'owner'
-    )
-  );
+  using (public.is_owner());
 
 create policy "Users can update own profile"
   on public.user_profiles for update
@@ -117,12 +128,7 @@ create policy "Authenticated users can read products"
 
 create policy "Owners can manage products"
   on public.products for all
-  using (
-    exists (
-      select 1 from public.user_profiles up
-      where up.id = auth.uid() and up.role = 'owner'
-    )
-  );
+  using (public.is_owner());
 
 -- Customers: all authenticated users can read and write
 create policy "Authenticated users can read customers"
@@ -199,8 +205,5 @@ create policy "Owners can delete product images"
   on storage.objects for delete
   using (
     bucket_id = 'product-images'
-    and exists (
-      select 1 from public.user_profiles up
-      where up.id = auth.uid() and up.role = 'owner'
-    )
+    and public.is_owner()
   );
