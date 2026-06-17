@@ -1,3 +1,4 @@
+import { showAlert } from '@/lib/dialog';
 import React, { useState } from 'react';
 import {
   ActivityIndicator,
@@ -41,7 +42,7 @@ export default function NewCustomerScreen() {
       router.back();
     },
     onError: (err) => {
-      Alert.alert('Error', err instanceof Error ? err.message : 'Could not create customer.');
+      showAlert('Error', err instanceof Error ? err.message : 'Could not create customer.');
     },
   });
 

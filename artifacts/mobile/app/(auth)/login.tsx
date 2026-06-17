@@ -1,3 +1,4 @@
+import { showAlert } from '@/lib/dialog';
 import React, { useState } from 'react';
 import {
   ActivityIndicator,
@@ -25,7 +26,7 @@ export default function LoginScreen() {
 
   async function handleSignIn() {
     if (!email || !password) {
-      Alert.alert('Missing fields', 'Please enter your email and password.');
+      showAlert('Missing fields', 'Please enter your email and password.');
       return;
     }
     setLoading(true);
@@ -34,7 +35,7 @@ export default function LoginScreen() {
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Login failed. Check your credentials.';
-      Alert.alert('Sign In Failed', msg);
+      showAlert('Sign In Failed', msg);
     } finally {
       setLoading(false);
     }

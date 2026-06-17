@@ -4,3 +4,4 @@
 - [Icon fonts fail on device](icon-fonts-on-device.md) — @expo/vector-icons can render blank on real devices; use react-native-svg via components/Icon.tsx, avoid lucide-react-native
 - [Expo app as static web (Netlify)](expo-web-netlify-export.md) — static SPA via expo export; EXPO_PUBLIC_* set at build time; Netlify drops dot-dirs (.pnpm) breaking fonts
 - [Supabase RLS self-reference recursion](supabase-rls-recursion.md) — a SELECT policy querying its own table = 500 (42P17); fix with a SECURITY DEFINER helper; beware client-set roles
+- [RN Alert is a no-op on web](rn-web-alert.md) — Alert.alert does nothing in react-native-web (errors/confirms silently fail); route through a window.alert/confirm helper

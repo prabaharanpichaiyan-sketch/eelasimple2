@@ -1,3 +1,4 @@
+import { showAlert } from '@/lib/dialog';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -89,7 +90,7 @@ export default function NewOrderScreen() {
       router.back();
     },
     onError: (err) => {
-      Alert.alert('Error', err instanceof Error ? err.message : 'Could not create order.');
+      showAlert('Error', err instanceof Error ? err.message : 'Could not create order.');
     },
   });
 

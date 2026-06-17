@@ -1,3 +1,4 @@
+import { showAlert } from '@/lib/dialog';
 import React from 'react';
 import {
   Alert,
@@ -46,7 +47,7 @@ export default function ProfileScreen() {
   const { profile, signOut } = useAuth();
 
   function handleSignOut() {
-    Alert.alert(
+    showAlert(
       'Sign Out',
       'Are you sure you want to sign out?',
       [

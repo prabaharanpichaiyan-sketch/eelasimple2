@@ -1,3 +1,4 @@
+import { showAlert } from '@/lib/dialog';
 import React, { useState } from 'react';
 import {
   ActivityIndicator,
@@ -45,7 +46,7 @@ export default function NewProductScreen() {
       router.back();
     },
     onError: (err) => {
-      Alert.alert('Error', err instanceof Error ? err.message : 'Could not create product.');
+      showAlert('Error', err instanceof Error ? err.message : 'Could not create product.');
     },
   });
 

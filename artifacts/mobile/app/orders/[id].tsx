@@ -1,3 +1,4 @@
+import { showAlert } from '@/lib/dialog';
 import React, { useState } from 'react';
 import {
   ActivityIndicator,
@@ -60,10 +61,10 @@ export default function OrderDetailScreen() {
 
   function handleDelete() {
     if (!isOwner) {
-      Alert.alert('Permission denied', 'Only bakery owners can delete orders.');
+      showAlert('Permission denied', 'Only bakery owners can delete orders.');
       return;
     }
-    Alert.alert('Delete Order', 'This action cannot be undone.', [
+    showAlert('Delete Order', 'This action cannot be undone.', [
       { text: 'Cancel', style: 'cancel' },
       { text: 'Delete', style: 'destructive', onPress: () => deleteMutation.mutate() },
     ]);

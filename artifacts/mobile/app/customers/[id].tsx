@@ -1,3 +1,4 @@
+import { showAlert } from '@/lib/dialog';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -59,7 +60,7 @@ export default function CustomerDetailScreen() {
       router.back();
     },
     onError: (err) => {
-      Alert.alert('Error', err instanceof Error ? err.message : 'Update failed.');
+      showAlert('Error', err instanceof Error ? err.message : 'Update failed.');
     },
   });
 
@@ -70,16 +71,16 @@ export default function CustomerDetailScreen() {
       router.back();
     },
     onError: (err) => {
-      Alert.alert('Error', err instanceof Error ? err.message : 'Delete failed.');
+      showAlert('Error', err instanceof Error ? err.message : 'Delete failed.');
     },
   });
 
   function handleDelete() {
     if (!isOwner) {
-      Alert.alert('Permission denied', 'Only bakery owners can delete customers.');
+      showAlert('Permission denied', 'Only bakery owners can delete customers.');
       return;
     }
-    Alert.alert('Delete Customer', 'This cannot be undone.', [
+    showAlert('Delete Customer', 'This cannot be undone.', [
       { text: 'Cancel', style: 'cancel' },
       { text: 'Delete', style: 'destructive', onPress: () => deleteMutation.mutate() },
     ]);

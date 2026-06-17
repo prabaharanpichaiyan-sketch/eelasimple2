@@ -1,3 +1,4 @@
+import { showAlert } from '@/lib/dialog';
 import React, { useState } from 'react';
 import {
   ActivityIndicator,
@@ -27,22 +28,22 @@ export default function RegisterScreen() {
 
   async function handleRegister() {
     if (!fullName || !email || !password) {
-      Alert.alert('Missing fields', 'Please fill in all fields.');
+      showAlert('Missing fields', 'Please fill in all fields.');
       return;
     }
     if (password.length < 6) {
-      Alert.alert('Weak password', 'Password must be at least 6 characters.');
+      showAlert('Weak password', 'Password must be at least 6 characters.');
       return;
     }
     setLoading(true);
     try {
       await signUp(email.trim().toLowerCase(), password, fullName.trim(), role);
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      Alert.alert('Account created', 'Check your email to verify your account, then sign in.');
+      showAlert('Account created', 'Check your email to verify your account, then sign in.');
       router.back();
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Registration failed.';
-      Alert.alert('Error', msg);
+      showAlert('Error', msg);
     } finally {
       setLoading(false);
     }
